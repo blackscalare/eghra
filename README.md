@@ -1,4 +1,5 @@
 # React app to access GitHub API
+This app is used to fetch GitHub profile information in order to view repositorys and edit them.
 
 ## Available Scripts
 
