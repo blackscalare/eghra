@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react'
 import axios from 'axios';
 import {Button, List, ListItem, Link, Avatar, TextField, Input, Grid} from '@material-ui/core'
+import ProfileView from './ProfileView'
 
 const api = 'https://api.github.com/'
 
@@ -79,20 +80,9 @@ class App extends React.Component {
     const {user, username, repos} = this.state
     console.log(repos)
     const user_avatar = user.avatar_url
-    if(user.login) {
+    if(user.login && repos[0]) {
       return(
-        <List>
-          <Avatar src={user_avatar} alt='user_avatar'></Avatar>
-          <Link href={user.html_url}>{user.login}</Link>
-          <h2>Repos</h2>
-          {repos.map(function(repo, idx) {
-            return(
-              <ListItem key={idx}>
-                <Link href={repo.html_url}>{repo.name}</Link>
-              </ListItem>
-            )
-          })}
-        </List>
+        <ProfileView user={user} username={username} repos={repos} />
       )
     } else {
       /*return (
