@@ -4,7 +4,7 @@ import {Button, List, ListItem, Link, Avatar, TextField, Input, Grid,
 import axios from 'axios';
 
 const api = 'https://api.github.com/'
-const token = '9b51d8ee89bf5880f4bb957539fbe5c4a54722c6'
+const token = '0xDEADBEEF'
 const headers = {
     'Content-Type': 'application/json',
     'Authorization': `token ${token}`
