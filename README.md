@@ -1,6 +1,17 @@
 # React app to access GitHub API
 This app is used to fetch GitHub profile information in order to view repositorys and edit them.
 
+
+## How to run
+Clone the repo
+```
+https://github.com/blackscalare/eghra.git
+```
+Use npm to install the dependencies
+```
+npm install
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
