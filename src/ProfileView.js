@@ -4,10 +4,10 @@ import {Button, List, ListItem, Link, Avatar, TextField, Input, Grid,
 import axios from 'axios';
 
 const api = 'https://api.github.com/'
-const token = '0xDEADBEEF'
+const API_KEY = process.env.REACT_APP_API_TOKEN
 const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `token ${token}`
+    'Authorization': `token ${API_KEY}`
 }
 
 
@@ -27,6 +27,18 @@ export default class ProfileView extends React.Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
+    getAllUserRepos() {
+        const username = this.state.username
+        axios.get(`${api}users/${username}/repos`)
+        .then(res => {
+          const repos = res.data
+          this.setState({
+            repos: repos
+          })
+          console.log(repos)
+        })
+      }
+
     updateRepoName = (username, oldRepoName, newRepoName) => {
         console.log(username, oldRepoName, newRepoName)
         axios.patch(`${api}repos/${username}/${oldRepoName}`,
@@ -37,6 +49,13 @@ export default class ProfileView extends React.Component {
         })
         .then(res => {
             console.log(res.data)
+            if(res.data.id) {
+                alert(`Successfully updated name from ${oldRepoName} to ${newRepoName}`)
+                this.getAllUserRepos()
+                this.handleClose()
+            } else {
+                alert(`Failed to update ${oldRepoName} to ${newRepoName}`)
+            }
         })
     }
 
@@ -51,7 +70,7 @@ export default class ProfileView extends React.Component {
             repoName: e.target.value
         })
     }
-    handleApply = (name, e) => {
+    handleApply = () => {
         const selectedRepo = this.state.selectedRepo
         const currentRepo = this.state.repos[selectedRepo].name
         const owner = this.state.username
@@ -59,8 +78,6 @@ export default class ProfileView extends React.Component {
     }
 
     handleClick(id) {
-        console.log('test')
-        console.log(id)
         this.setState({
             open: true,
             selectedRepo: id
@@ -69,29 +86,34 @@ export default class ProfileView extends React.Component {
 
     render() {
         const {user, username, repos, selectedRepo} = this.state
-        console.log(repos)
         const user_avatar = user.avatar_url
         const repoList = repos.map((repo, index) => {
             return(
-                <ListItem key={repo.id} button={true} value={index} onClick={() => this.handleClick(index)}>
+                <ListItem className="repo-button" key={repo.id} button={true} value={index} onClick={() => this.handleClick(index)}>
                     {repo.name}
                 </ListItem>
             )
         })
         if(user.login) {
           return(
-            <div>
+            <div className="profile-view">
                 <Grid container justify="center">
                     <Avatar src={user_avatar} alt='user_avatar'></Avatar>
-                    <Link href={user.html_url}>{user.login}</Link>
+                </Grid>
+                <Grid container justify="center">
+                    <h1>
+                        <Link href={user.html_url}>{user.login}</Link>
+                    </h1>
+                    
                 </Grid>
                 <Grid container justify="center">
                     <List>
                         <h2>Repos</h2>
+                        <b>Click to edit</b>
                         {repoList}
                     </List>
                 </Grid>
-                <Dialog open={this.state.open} onClose={this.handleClose} >
+                <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle>Edit repo</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -107,10 +129,10 @@ export default class ProfileView extends React.Component {
                             onChange={this.handleChange}
                             />
                             <DialogActions>
-                                <Button onClick={this.handleClose}>
+                                <Button color="secondary" onClick={this.handleClose}>
                                     Cancel
                                 </Button>
-                                <Button onClick={(e) => this.handleApply('xD', e)} >
+                                <Button color="primary" onClick={(e) => this.handleApply()} >
                                     Apply
                                 </Button>
                             </DialogActions>
