@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.profile-view {
+  margin-top: 50px
+}
+
+
+body {
+  background-image: url("bg.png");
+  color: azure
+}
+
+.repo-button:hover {
+  background-color: rgba(3, 69, 252, 0.1)!important
+}
