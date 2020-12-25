@@ -53,9 +53,13 @@ class App extends React.Component {
     axios.get(`${api}users/${username}`)
     .then(res => {
       const user = res.data
-      console.log(user)
       this.setState({user})
-    })
+    }).catch( function(error) {
+      if(error.response)  
+        alert(`Could not find user "${username}"\nPlease try again`)
+    }
+      
+    )
     this.getAllUserRepos()
   }
 
