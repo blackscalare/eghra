@@ -21,14 +21,7 @@ class App extends React.Component {
 
 
   
-  /*componentDidMount() {
-    axios.get(`https://api.github.com/users/blackscalare`)
-    .then(res => {
-      const users = res.data
-      console.log(users)
-      this.setState({users})
-    })
-  }*/
+  /*componentDidMount() {}*/
 
   getRepoInfo() {
     const repos = this.state.repos
@@ -75,7 +68,6 @@ class App extends React.Component {
       username: this.input.current.value
     }, () => 
     this.getUserInfo()
-    //console.log(this.input.current.value)
     )
     
   }
@@ -89,20 +81,6 @@ class App extends React.Component {
         <ProfileView user={user} username={username} repos={repos} />
       )
     } else {
-      /*return (
-        <div>
-          <Grid container justify="center">
-            <h1>Enter GitHub username to see profile and repos</h1>
-          </Grid>
-          <Grid container justify="center">
-            <form onSubmit={this.handleSubmit}>
-              <TextField value={username || ''}
-              onChange={this.onChange}/>
-              <Button onClick={this.handleSubmit.bind(this)}>Search</Button>
-            </form>
-          </Grid>    
-        </div>    
-      )*/
       return(
         <div>
           <Grid container justify="center">
