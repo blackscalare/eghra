@@ -13,7 +13,6 @@ const headers = {
 
 export default class ProfileView extends React.Component {
 
-
     constructor(props) {
         super(props)
         this.state = {
@@ -35,12 +34,10 @@ export default class ProfileView extends React.Component {
           this.setState({
             repos: repos
           })
-          console.log(repos)
         })
       }
 
     updateRepoName = (username, oldRepoName, newRepoName) => {
-        console.log(username, oldRepoName, newRepoName)
         axios.patch(`${api}repos/${username}/${oldRepoName}`,
         {
             name: newRepoName
@@ -48,7 +45,6 @@ export default class ProfileView extends React.Component {
             headers: headers
         })
         .then(res => {
-            console.log(res.data)
             if(res.data.id) {
                 alert(`Successfully updated name from ${oldRepoName} to ${newRepoName}`)
                 this.getAllUserRepos()
@@ -65,7 +61,6 @@ export default class ProfileView extends React.Component {
         })
     }
     handleChange = e => {
-        console.log(e.target.value)
         this.setState({
             repoName: e.target.value
         })
