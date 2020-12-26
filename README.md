@@ -2,13 +2,10 @@
 This app is used to fetch GitHub profile information in order to view repositorys and edit them.
 
 
-## How to run
-Clone the repo
+## How to set up
 ```
-https://github.com/blackscalare/eghra.git
-```
-Use npm to install the dependencies
-```
+git clone https://github.com/blackscalare/eghra.git
+cd eghra
 npm install
 ```
 
