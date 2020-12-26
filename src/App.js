@@ -111,10 +111,11 @@ class App extends React.Component {
           <Grid container justify="center">
             <form onSubmit={this.handleSubmit}>
               <label>
-                Username: 
-                <input type="text" ref={this.input} />
+                Username <br />
               </label>
-              <input type="submit" value="Submit" />
+              <input type="text" ref={this.input} />
+              <br /><br/>
+              <Button type="submit" variant="contained" value="Submit" color="primary">Submit</Button>
             </form>
           </Grid>
         </div>
