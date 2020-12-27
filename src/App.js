@@ -22,7 +22,8 @@ class App extends React.Component {
 
   
   /*componentDidMount() {}*/
-
+  
+  // debug: log all repos
   getRepoInfo() {
     const repos = this.state.repos
     repos.forEach(repo => {
@@ -63,7 +64,6 @@ class App extends React.Component {
 
   handleSubmit(event){
     event.preventDefault()
-    console.log(this.input)
     this.setState({
       username: this.input.current.value
     }, () => 
@@ -74,7 +74,7 @@ class App extends React.Component {
 
   render() {
     const {user, username, repos} = this.state
-    if(user.login) {
+    if(user.login && repos[0]) {
       return(
         <ProfileView user={user} username={username} repos={repos} />
       )
