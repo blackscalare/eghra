@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react'
 import axios from 'axios';
-import {Button, List, ListItem, Link, Avatar, TextField, Input, Grid} from '@material-ui/core'
+import {Button, Grid} from '@material-ui/core'
 import ProfileView from './ProfileView'
 
 const api = 'https://api.github.com/'
@@ -74,9 +74,7 @@ class App extends React.Component {
 
   render() {
     const {user, username, repos} = this.state
-    console.log(repos)
-    const user_avatar = user.avatar_url
-    if(user.login && repos[0]) {
+    if(user.login) {
       return(
         <ProfileView user={user} username={username} repos={repos} />
       )
