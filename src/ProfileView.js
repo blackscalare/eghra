@@ -1,7 +1,9 @@
 import React from 'react'
 import {Button, List, ListItem, Link, Avatar, TextField, Grid,
         Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core'
-import axios from 'axios';
+import axios from 'axios'
+import marked from 'marked'
+import {Base64} from 'js-base64'
 
 const api = 'https://api.github.com/'
 const API_KEY = process.env.REACT_APP_API_TOKEN
@@ -21,9 +23,29 @@ export default class ProfileView extends React.Component {
           repos: this.props.repos,
           open: false,
           selectedRepo: 0,
-          repoName: ''
+          repoName: '',
+          readmeContent: ''
         }
         this.handleClick = this.handleClick.bind(this)
+    }
+
+    getRepoReadme = () => {
+        const {username} = this.state
+        const selectedRepoName = this.state.repos[this.state.selectedRepo].name
+        axios.get(`${api}repos/${username}/${selectedRepoName}/readme`)
+        .then(res => {
+            const readmeContent = marked(Base64.decode(res.data.content))
+            this.setState({
+                readmeContent: readmeContent
+            })
+        })
+        .catch((error) => {
+            if(error.response) {
+                this.setState({
+                    readmeContent: ''
+                })
+            }
+        })
     }
 
     updateRepoInMemory(newRepoName) {
@@ -76,7 +98,7 @@ export default class ProfileView extends React.Component {
         this.setState({
             open: true,
             selectedRepo: id
-        })
+        }, () => this.getRepoReadme())
     }
 
     render() {
@@ -113,8 +135,9 @@ export default class ProfileView extends React.Component {
                     </List>
                 </Grid>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
-                    <DialogTitle>Edit repo</DialogTitle>
+                    <DialogTitle>Repo details</DialogTitle>
                     <DialogContent>
+                        <article dangerouslySetInnerHTML={{__html: this.state.readmeContent}} />
                         <DialogContentText>
                             Change repo details
                         </DialogContentText>
