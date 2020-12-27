@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, List, ListItem, Link, Avatar, TextField, Input, Grid,
+import {Button, List, ListItem, Link, Avatar, TextField, Grid,
         Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core'
 import axios from 'axios';
 
@@ -26,16 +26,16 @@ export default class ProfileView extends React.Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    getAllUserRepos() {
-        const username = this.state.username
-        axios.get(`${api}users/${username}/repos`)
-        .then(res => {
-          const repos = res.data
-          this.setState({
-            repos: repos
-          })
-        })
-      }
+    updateRepoInMemory(newRepoName) {
+        let repos = [...this.state.repos]
+        let repoIndex = this.state.selectedRepo
+        let repo = {
+            ...repos[repoIndex],
+            name: newRepoName    
+        }
+        repos[repoIndex] = repo
+        this.setState({repos})
+    }
 
     updateRepoName = (username, oldRepoName, newRepoName) => {
         axios.patch(`${api}repos/${username}/${oldRepoName}`,
@@ -47,7 +47,7 @@ export default class ProfileView extends React.Component {
         .then(res => {
             if(res.data.id) {
                 alert(`Successfully updated name from ${oldRepoName} to ${newRepoName}`)
-                this.getAllUserRepos()
+                this.updateRepoInMemory(newRepoName)
                 this.handleClose()
             } else {
                 alert(`Failed to update ${oldRepoName} to ${newRepoName}`)
@@ -80,8 +80,12 @@ export default class ProfileView extends React.Component {
     }
 
     render() {
-        const {user, username, repos, selectedRepo} = this.state
+        const {user, repos, selectedRepo} = this.state
         const user_avatar = user.avatar_url
+        let selectedRepoName = ''
+        if(this.state.repos.length > 0) {
+            selectedRepoName = this.state.repos[selectedRepo].name
+        }
         const repoList = repos.map((repo, index) => {
             return(
                 <ListItem className="repo-button" key={repo.id} button={true} value={index} onClick={() => this.handleClick(index)}>
@@ -120,7 +124,7 @@ export default class ProfileView extends React.Component {
                             id="name"
                             label="Repo name"
                             fullWidth
-                            defaultValue={this.state.repos[selectedRepo].name}
+                            defaultValue={selectedRepoName}
                             onChange={this.handleChange}
                             />
                             <DialogActions>
