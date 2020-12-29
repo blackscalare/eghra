@@ -1,6 +1,14 @@
 # React app to access GitHub API
 This app is used to fetch GitHub profile information in order to view and edit repositories.
 
+Currently it is only possible to edit repositories on an account with a token. The token can be placed in a .env file in the root folder during development.
+
+.env content
+```
+REACT_APP_API_TOKEN={token}
+```
+
+The token is generated [here](https://github.com/settings/tokens)
 
 ## How to set up
 ```
