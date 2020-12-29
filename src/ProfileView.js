@@ -34,6 +34,7 @@ export default class ProfileView extends React.Component {
         const selectedRepoName = this.state.repos[this.state.selectedRepo].name
         axios.get(`${api}repos/${username}/${selectedRepoName}/readme`)
         .then(res => {
+            // Decode the base64 encoded content and convert markdown to HTML
             const readmeContent = marked(Base64.decode(res.data.content))
             this.setState({
                 readmeContent: readmeContent
@@ -47,7 +48,7 @@ export default class ProfileView extends React.Component {
             }
         })
     }
-
+    // Updates the repo name in memory instead of fetching all the repos again which might not be correct
     updateRepoInMemory(newRepoName) {
         let repos = [...this.state.repos]
         let repoIndex = this.state.selectedRepo
@@ -82,11 +83,13 @@ export default class ProfileView extends React.Component {
             open: false
         })
     }
+
     handleChange = e => {
         this.setState({
             repoName: e.target.value
         })
     }
+
     handleApply = () => {
         const selectedRepo = this.state.selectedRepo
         const currentRepo = this.state.repos[selectedRepo].name
@@ -108,6 +111,7 @@ export default class ProfileView extends React.Component {
         if(this.state.repos.length > 0) {
             selectedRepoName = this.state.repos[selectedRepo].name
         }
+        // Creates a list of all the public repos of a profile
         const repoList = repos.map((repo, index) => {
             return(
                 <ListItem className="repo-button" key={repo.id} button={true} value={index} onClick={() => this.handleClick(index)}>

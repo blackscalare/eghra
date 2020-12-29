@@ -18,8 +18,6 @@ class App extends React.Component {
       repos: []
     }
   }
-
-
   
   /*componentDidMount() {}*/
   
@@ -31,6 +29,7 @@ class App extends React.Component {
     });
   }
 
+  // Fetches all public repos from the user
   getAllUserRepos() {
     const username = this.state.username
     axios.get(`${api}users/${username}/repos`)
@@ -42,6 +41,7 @@ class App extends React.Component {
     })
   }
 
+  // Fetches the user data from the REST api
   getUserInfo() {
     const username = this.state.username
     axios.get(`${api}users/${username}`)
@@ -74,6 +74,8 @@ class App extends React.Component {
 
   render() {
     const {user, username, repos} = this.state
+    // Checks if the user is logged in and if there are any repos
+    // currently only works with accounts that have at least one public repo
     if(user.login && repos[0]) {
       return(
         <ProfileView user={user} username={username} repos={repos} />
