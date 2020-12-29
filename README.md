@@ -8,7 +8,7 @@ Currently it is only possible to edit repositories on an account with a token. T
 REACT_APP_API_TOKEN={token}
 ```
 
-The token is generated [here](https://github.com/settings/tokens)
+The token is generated [here](https://github.com/settings/tokens).
 
 ## How to set up
 ```
